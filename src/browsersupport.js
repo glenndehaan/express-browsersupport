@@ -88,7 +88,9 @@ const isSupportedBrowser = (ua) => {
                 }
             }
         } else {
-            return (ua.browser.toLowerCase() === supportedBrowser.browser.toLowerCase());
+            if (ua.browser.toLowerCase() === supportedBrowser.browser.toLowerCase()) {
+                return (ua.browser.toLowerCase() === supportedBrowser.browser.toLowerCase());
+            }
         }
     }
 

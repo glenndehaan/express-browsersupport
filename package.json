@@ -1,6 +1,6 @@
 {
   "name": "express-browsersupport",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A way to define which browsers are supported in your express app",
   "main": "src/browsersupport.js",
   "author": {
