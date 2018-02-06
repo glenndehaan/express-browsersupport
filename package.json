@@ -1,0 +1,19 @@
+{
+  "name": "express-browsersupport",
+  "version": "1.0.0",
+  "description": "A way to define which browsers are supported in your express app",
+  "main": "src/browsersupport.js",
+  "author": {
+    "name": "Glenn de Haan",
+    "email": "glenn@dehaan.cloud",
+    "url": "https://glenndehaan.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glenndehaan/express-browsersupport.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express-useragent": "^1.0.8"
+  }
+}
