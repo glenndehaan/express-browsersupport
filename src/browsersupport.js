@@ -4,11 +4,11 @@
 const useragent = require('express-useragent');
 
 /**
- * Create globals
- *
- * @type {Array}
+ * Define globals
  */
 let supportedBrowsers = [];
+let ignoreUndefinedBrowsers = false;
+let debug = false;
 
 /**
  * Express middleware
@@ -25,7 +25,16 @@ const browserSupportMiddleware = (options) => {
         throw new Error("[BrowserSupport] Missing browsers in supportedBrowsers array!");
     }
 
+    if (typeof options.debug !== "undefined") {
+        debug = options.debug;
+    }
+
+    if (typeof options.ignoreUndefinedBrowsers !== "undefined") {
+        ignoreUndefinedBrowsers = options.ignoreUndefinedBrowsers;
+    }
+
     supportedBrowsers = options.supportedBrowsers;
+    validateBrowserList();
 
     /**
      * Return the Express middleware function
@@ -49,6 +58,22 @@ const browserSupportMiddleware = (options) => {
             attachBrowserSupport(req);
             next();
         }
+
+        if(debug) {
+            console.log("----------------------------------------------------");
+            console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
+            console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
+            console.log("----------------------------------------------------");
+        }
+    }
+};
+
+/**
+ * Check the browser list on app init. This makes sure you don't miss any error's
+ */
+const validateBrowserList = () => {
+    for (let browser = 0; browser < supportedBrowsers.length; browser++) {
+        convertStringToBrowser(supportedBrowsers[browser]);
     }
 };
 
@@ -94,7 +119,7 @@ const isSupportedBrowser = (ua) => {
         }
     }
 
-    return false;
+    return ignoreUndefinedBrowsers;
 };
 
 /**

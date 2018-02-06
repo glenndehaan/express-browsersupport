@@ -71,6 +71,39 @@ app.get('/', (req, res) => {
 });
 ```
 
+## Supported Browsers
+This array can be filled with strings that will contain the browser checks.
+
+So the order is `"Browser Name"` `"Operator"` `"Version"`
+
+The following operators are supported: `>` `>=` `==`
+
+Instead of a version number you can also use `All` this means all versions from that browser are supported
+
+This array is required and needs to have at least one rule
+
+## Ignore Undefined Browsers
+We don't know what browsers exists all over the world
+
+This could be a problem since you can't define them all in your config
+
+So we created an option that just ignores undefined browsers
+
+When set to `true` and someone with an undefined browser visits the app the browser will be allowed
+```
+app.use(browsersupport({
+    ignoreUndefinedBrowsers: true // Defaults to false
+}));
+```
+
+## Debug
+Found a weird new browser and want to check what express-useragent returns. Sure just set debug to `true`:
+```
+app.use(browsersupport({
+    debug: true // Defaults to false
+}));
+```
+
 ## Bonus
 Since we are using express-useragent to determent the current browser.
 

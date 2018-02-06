@@ -20,6 +20,8 @@ app.use(bodyParser.json());
  * Configure app to use Browser Support
  */
 app.use(browsersupport({
+    debug: false,
+    ignoreUndefinedBrowsers: false,
     redirectUrl: "/oldbrowser",
     supportedBrowsers: [
         "Chrome >= 52",
