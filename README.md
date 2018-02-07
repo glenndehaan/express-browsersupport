@@ -2,7 +2,7 @@
 
 A way to define which browsers are supported in your express app
 
-[![npm](https://img.shields.io/npm/v/express-browsersupport.svg)](https://www.npmjs.com/package/express-browsersupport) ![node](https://img.shields.io/node/v/express-browsersupport.svg) ![dependencies](https://david-dm.org/glenndehaan/express-browsersupport.svg)
+[![npm](https://img.shields.io/npm/v/express-browsersupport.svg)](https://www.npmjs.com/package/express-browsersupport) ![node](https://img.shields.io/node/v/express-browsersupport.svg) ![dependencies](https://david-dm.org/glenndehaan/express-browsersupport.svg) [![Build Status](https://travis-ci.org/glenndehaan/express-browsersupport.svg?branch=master)](https://travis-ci.org/glenndehaan/express-browsersupport) [![Coverage Status](https://coveralls.io/repos/github/glenndehaan/express-browsersupport/badge.svg?branch=master)](https://coveralls.io/github/glenndehaan/express-browsersupport?branch=master)
 
 ## Functionalities
 * Check if browsers visiting your express app are supported by you.
