@@ -11,6 +11,20 @@ const bodyParser = require('body-parser');
 const browsersupport = require('../src/browsersupport');
 
 /**
+ * Define old browser response
+ */
+const oldBrowserResponse = `
+    <html>
+        <head>
+            <title>Old Browser</title>
+        </head>
+        <body>
+            <h2><strong>Go away!</strong></h2>
+        </body>
+    </html>
+`;
+
+/**
  * Configure app to use bodyParser()
  */
 app.use(bodyParser.urlencoded({extended: true}));
@@ -22,7 +36,8 @@ app.use(bodyParser.json());
 app.use(browsersupport({
     debug: false,
     ignoreUndefinedBrowsers: false,
-    redirectUrl: "/oldbrowser",
+    // redirectUrl: "/oldbrowser",
+    customResponse: oldBrowserResponse,
     supportedBrowsers: [
         "Chrome >= 52",
         "Firefox >= 47",
@@ -43,7 +58,7 @@ app.get('/', (req, res) => {
  * Render fallback
  */
 app.get('/oldbrowser', (req, res) => {
-    res.send("Old browser!");
+    res.send(oldBrowserResponse);
 });
 
 /**

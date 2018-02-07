@@ -11,3 +11,7 @@ npm-debug.log
 
 # Build files
 demo/js/build
+
+# Coverage/test files
+coverage/
+.nyc_output/

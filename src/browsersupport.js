@@ -25,6 +25,10 @@ const browserSupportMiddleware = (options) => {
         throw new Error("[BrowserSupport] Missing browsers in supportedBrowsers array!");
     }
 
+    if (options.redirectUrl && options.customResponse) {
+        throw new Error("[BrowserSupport] You can only use one feature at once! Define redirectUrl or customResponse. Not both!");
+    }
+
     if (typeof options.debug !== "undefined") {
         debug = options.debug;
     }
@@ -54,12 +58,18 @@ const browserSupportMiddleware = (options) => {
             } else {
                 next();
             }
+        } else if (typeof options.customResponse !== "undefined") {
+            if (!isSupportedBrowser(req.useragent)) {
+                res.send(options.customResponse);
+            } else {
+                next();
+            }
         } else {
             attachBrowserSupport(req);
             next();
         }
 
-        if(debug) {
+        if (debug) {
             console.log("----------------------------------------------------");
             console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
             console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);

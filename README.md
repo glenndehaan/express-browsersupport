@@ -19,7 +19,7 @@ const browsersupport = require('express-browsersupport');
 ```
 
 ## Usage
-The Express BrowserSupport package contains two modes. The let us redirect them mode and the do it yourself mode.
+The Express BrowserSupport package contains three modes. The let us redirect them mode, the send a custom response to them mode and the do it yourself mode.
 
 Start by just setting up a basic express server:
 ```
@@ -52,7 +52,41 @@ app.get('/oldbrowser', (req, res) => {
 });
 ```
 
+#### Custom Response
+By specifying the `customResponse` param in the options we will send your custom HTML response to browsers who arn't supported
+```
+// Non supported browsers will get this as a response (A custom HTML page)
+const oldBrowserResponse = `
+    <html>
+        <head>
+            <title>Old Browser</title>
+        </head>
+        <body>
+            <h2><strong>Go away!</strong></h2>
+        </body>
+    </html>
+`;
+ 
+app.use(browsersupport({
+    customResponse: oldBrowserResponse,
+    supportedBrowsers: [
+        "Chrome >= 52",
+        "Firefox >= 47",
+        "Safari >= 10",
+        "Edge == All",
+        "IE == 11"
+    ]
+}));
+ 
+app.get('/', (req, res) => {
+    // Supported browsers will endup in your own defined Express Routes
+    res.send("Home");
+});
+```
+
 #### Do it yourself
+If you don't specify the `customResponse` or `redirectUrl` in your options you will enter the do it yourself mode
+
 Your req variable will now contain a special browserSupported boolean
 
 This means you are free to do what ever you want
