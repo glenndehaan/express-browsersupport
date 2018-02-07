@@ -2,6 +2,8 @@
 
 A way to define which browsers are supported in your express app
 
+[![npm](https://img.shields.io/npm/v/express-browsersupport.svg)](https://www.npmjs.com/package/express-browsersupport) ![node](https://img.shields.io/node/v/express-browsersupport.svg) ![dependencies](https://david-dm.org/glenndehaan/express-browsersupport.svg)
+
 ## Functionalities
 * Check if browsers visiting your express app are supported by you.
 * Redirect old browsers to a fallback page.

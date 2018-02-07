@@ -13,6 +13,9 @@
     "url": "https://github.com/glenndehaan/express-browsersupport.git"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "dependencies": {
     "express-useragent": "^1.0.8"
   }
