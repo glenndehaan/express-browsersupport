@@ -85,9 +85,11 @@ app.get('/', (req, res) => {
 ```
 
 #### Do it yourself
-If you don't specify the `customResponse` or `redirectUrl` in your options you will enter the do it yourself mode
+If you don't specify the `customResponse` or `redirectUrl` in your options you will have to do it yourself
 
-Your req variable will now contain a special browserSupported boolean
+Your req variable will always contain a special browserSupported boolean
+
+This variable is always available! Even if you specify a `customResponse` or `redirectUrl` in your options
 
 This means you are free to do what ever you want
 ```
@@ -118,17 +120,17 @@ Instead of a version number you can also use `All` this means all versions from 
 
 This array is required and needs to have at least one rule
 
-## Ignore Undefined Browsers
-We don't know what browsers exists all over the world
+## Strict Mode
+By default when a browser visits that isn't defined in the supported browsers array
 
-This could be a problem since you can't define them all in your config
+We will allow this. But sometimes you don't want to also disallow these browsers
 
-So we created an option that just ignores undefined browsers
+> Warning!!! This also disallows bot's trying to visit the URL
 
-When set to `true` and someone with an undefined browser visits the app the browser will be allowed
+When set to `true` and someone with an undefined browser visits the app the browser will not be allowed
 ```
 app.use(browsersupport({
-    ignoreUndefinedBrowsers: true // Defaults to false
+    useStrictMode: true // Defaults to false
 }));
 ```
 

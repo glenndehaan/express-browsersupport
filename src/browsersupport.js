@@ -7,7 +7,7 @@ const useragent = require('express-useragent');
  * Define globals
  */
 let supportedBrowsers = [];
-let ignoreUndefinedBrowsers = false;
+let useStrictMode = false;
 let debug = false;
 
 /**
@@ -33,8 +33,8 @@ const browserSupportMiddleware = (options) => {
         debug = options.debug;
     }
 
-    if (typeof options.ignoreUndefinedBrowsers !== "undefined") {
-        ignoreUndefinedBrowsers = options.ignoreUndefinedBrowsers;
+    if (typeof options.useStrictMode !== "undefined") {
+        useStrictMode = options.useStrictMode;
     }
 
     supportedBrowsers = options.supportedBrowsers;
@@ -46,6 +46,15 @@ const browserSupportMiddleware = (options) => {
     return (req, res, next) => {
         const source = req.headers['user-agent'];
         req.useragent = useragent.parse(source);
+
+        attachBrowserSupport(req);
+
+        if (debug) {
+            console.log("----------------------------------------------------");
+            console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
+            console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
+            console.log("----------------------------------------------------");
+        }
 
         // Check if the user wants to do a redirect for old browsers
         if (typeof options.redirectUrl !== "undefined") {
@@ -65,15 +74,7 @@ const browserSupportMiddleware = (options) => {
                 next();
             }
         } else {
-            attachBrowserSupport(req);
             next();
-        }
-
-        if (debug) {
-            console.log("----------------------------------------------------");
-            console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
-            console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
-            console.log("----------------------------------------------------");
         }
     }
 };
@@ -129,7 +130,7 @@ const isSupportedBrowser = (ua) => {
         }
     }
 
-    return ignoreUndefinedBrowsers;
+    return !useStrictMode;
 };
 
 /**

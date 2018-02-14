@@ -35,7 +35,7 @@ app.use(bodyParser.json());
  */
 app.use(browsersupport({
     debug: false,
-    ignoreUndefinedBrowsers: false,
+    useStrictMode: false,
     // redirectUrl: "/oldbrowser",
     customResponse: oldBrowserResponse,
     supportedBrowsers: [
@@ -51,6 +51,8 @@ app.use(browsersupport({
  * Render homepage
  */
 app.get('/', (req, res) => {
+    console.log('req.supportedBrowser', req.supportedBrowser);
+
     res.send("Home");
 });
 
