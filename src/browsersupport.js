@@ -112,7 +112,7 @@ const isSupportedBrowser = (ua) => {
 
             if (ua.browser.toLowerCase() === supportedBrowser.browser.toLowerCase()) {
                 if (supportedBrowser.operator === "==") {
-                    return (currentBrowserVersion === supportedBrowser.version);
+                    return (currentBrowserVersion == supportedBrowser.version);
                 }
 
                 if (supportedBrowser.operator === ">=") {
