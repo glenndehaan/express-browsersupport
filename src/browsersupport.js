@@ -108,6 +108,10 @@ const isSupportedBrowser = (ua) => {
         const supportedBrowser = convertStringToBrowser(supportedBrowsers[browser]);
 
         if (supportedBrowser.version !== "All") {
+            if(typeof ua.version === "undefined" || typeof ua.browser === "undefined"){
+                return !useStrictMode;
+            }
+
             const currentBrowserVersion = parseInt(ua.version.split(".")[0]);
 
             if (ua.browser.toLowerCase() === supportedBrowser.browser.toLowerCase()) {
