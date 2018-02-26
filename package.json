@@ -6,7 +6,8 @@
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha -R spec --recursive",
     "test:watch": "mocha -R spec --recursive --watch",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint -c ./package.json ./src"
   },
   "author": {
     "name": "Glenn de Haan",
@@ -21,11 +22,38 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "no-console": 0,
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "indent": [
+        "error",
+        4
+      ]
+    },
+    "extends": [
+      "eslint:recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "*.test.js"
+  ],
   "dependencies": {
     "express-useragent": "^1.0.12"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
+    "eslint": "^4.18.1",
     "express": "^4.15.3",
     "mocha": "^5.0.1",
     "nyc": "^11.5.0",

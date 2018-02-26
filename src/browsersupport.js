@@ -81,14 +81,14 @@ const browserSupportMiddleware = (options) => {
             } else {
                 next();
             }
-        // Check if the user wants to return a custom response for old browsers
+            // Check if the user wants to return a custom response for old browsers
         } else if (typeof options.customResponse !== "undefined") {
             if (!isSupportedBrowser(req.useragent)) {
                 res.send(options.customResponse);
             } else {
                 next();
             }
-        // If nothing is defined we just continue
+            // If nothing is defined we just continue
         } else {
             next();
         }
@@ -124,7 +124,7 @@ const isSupportedBrowser = (ua) => {
         const supportedBrowser = convertStringToBrowser(supportedBrowsers[browser]);
 
         if (supportedBrowser.version !== "All") {
-            if(typeof ua.version === "undefined" || typeof ua.browser === "undefined"){
+            if (typeof ua.version === "undefined" || typeof ua.browser === "undefined") {
                 return !useStrictMode;
             }
 
