@@ -152,6 +152,127 @@ describe("BrowserSupport", () => {
         });
     });
 
+    /**
+     * Check if are allowed when the User-Agent is malformed
+     */
+    it('Should allow malformed User-Agent', (done) => {
+        const app = express();
+
+        app.use(browsersupport({
+            redirectUrl: "/oldbrowser",
+            supportedBrowsers: [
+                "Chrome >= 52",
+                "Firefox >= 80",
+                "Safari >= 10",
+                "Edge == All",
+                "IE == 11"
+            ]
+        }));
+
+        app.get('/', (req, res) => {
+            res.send("Home");
+        });
+
+        app.get('/oldbrowser', (req, res) => {
+            res.send("Old Browser");
+        });
+
+        requestOptions.headers["User-Agent"] = "Firefox";
+
+        const server = app.listen(8082, "0.0.0.0", () => {
+            request(requestOptions, (error, response, body) => {
+                response.statusCode.should.be.Number();
+                response.statusCode.should.equal(200);
+                response.req.path.should.equal("/");
+                body.should.equal("Home");
+
+                server.close(() => {
+                    done();
+                });
+            });
+        });
+    });
+
+    /**
+     * Check if are allowed when the User-Agent is empty
+     */
+    it('Should allow empty User-Agent', (done) => {
+        const app = express();
+
+        app.use(browsersupport({
+            redirectUrl: "/oldbrowser",
+            supportedBrowsers: [
+                "Chrome >= 52",
+                "Firefox >= 80",
+                "Safari >= 10",
+                "Edge == All",
+                "IE == 11"
+            ]
+        }));
+
+        app.get('/', (req, res) => {
+            res.send("Home");
+        });
+
+        app.get('/oldbrowser', (req, res) => {
+            res.send("Old Browser");
+        });
+
+        requestOptions.headers["User-Agent"] = "";
+
+        const server = app.listen(8082, "0.0.0.0", () => {
+            request(requestOptions, (error, response, body) => {
+                response.statusCode.should.be.Number();
+                response.statusCode.should.equal(200);
+                response.req.path.should.equal("/");
+                body.should.equal("Home");
+
+                server.close(() => {
+                    done();
+                });
+            });
+        });
+    });
+
+    it('Should redirect when unknown browser visits in strict mode', (done) => {
+        const app = express();
+
+        app.use(browsersupport({
+            redirectUrl: "/oldbrowser",
+            useStrictMode: true,
+            supportedBrowsers: [
+                "Chrome >= 52",
+                "Firefox >= 80",
+                "Safari >= 10",
+                "Edge == All",
+                "IE == 11"
+            ]
+        }));
+
+        app.get('/', (req, res) => {
+            res.send("Home");
+        });
+
+        app.get('/oldbrowser', (req, res) => {
+            res.send("Old Browser");
+        });
+
+        requestOptions.headers["User-Agent"] = "";
+
+        const server = app.listen(8082, "0.0.0.0", () => {
+            request(requestOptions, (error, response, body) => {
+                response.statusCode.should.be.Number();
+                response.statusCode.should.equal(200);
+                response.req.path.should.equal("/oldbrowser");
+                body.should.equal("Old Browser");
+
+                server.close(() => {
+                    done();
+                });
+            });
+        });
+    });
+
     it('Should crash when array is missing', (done) => {
         try {
             browsersupport({});
@@ -223,5 +344,46 @@ describe("BrowserSupport", () => {
             e.should.Error();
             done();
         }
+    });
+
+    /**
+     * Check if are allowed when the User-Agent is undefined
+     */
+    it('Should allow undefined User-Agent (express-useragent crash simulation)', (done) => {
+        const app = express();
+
+        app.use(browsersupport({
+            redirectUrl: "/oldbrowser",
+            supportedBrowsers: [
+                "Chrome >= 52",
+                "Firefox >= 80",
+                "Safari >= 10",
+                "Edge == All",
+                "IE == 11"
+            ]
+        }));
+
+        app.get('/', (req, res) => {
+            res.send("Home");
+        });
+
+        app.get('/oldbrowser', (req, res) => {
+            res.send("Old Browser");
+        });
+
+        delete requestOptions.headers;
+
+        const server = app.listen(8082, "0.0.0.0", () => {
+            request(requestOptions, (error, response, body) => {
+                response.statusCode.should.be.Number();
+                response.statusCode.should.equal(200);
+                response.req.path.should.equal("/");
+                body.should.equal("Home");
+
+                server.close(() => {
+                    done();
+                });
+            });
+        });
     });
 });

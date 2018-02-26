@@ -44,9 +44,23 @@ const browserSupportMiddleware = (options) => {
      * Return the Express middleware function
      */
     return (req, res, next) => {
-        const source = req.headers['user-agent'];
-        req.useragent = useragent.parse(source);
+        /**
+         * If the user-agent lib crashes we use the strict mode fallback
+         */
+        try {
+            const source = req.headers['user-agent'];
+            req.useragent = useragent.parse(source);
+        } catch (e) {
+            req.supportedBrowser = !useStrictMode;
+            req.useragent = false;
 
+            next();
+            return;
+        }
+
+        /**
+         * Add req.supportedBrowser
+         */
         attachBrowserSupport(req);
 
         if (debug) {
@@ -67,12 +81,14 @@ const browserSupportMiddleware = (options) => {
             } else {
                 next();
             }
+        // Check if the user wants to return a custom response for old browsers
         } else if (typeof options.customResponse !== "undefined") {
             if (!isSupportedBrowser(req.useragent)) {
                 res.send(options.customResponse);
             } else {
                 next();
             }
+        // If nothing is defined we just continue
         } else {
             next();
         }
