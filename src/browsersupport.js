@@ -66,7 +66,9 @@ const browserSupportMiddleware = (options) => {
         if (debug) {
             console.log("----------------------------------------------------");
             console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
-            console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
+            if (typeof req.useragent.version !== "undefined" && typeof req.useragent.browser !== "undefined") {
+                console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
+            }
             console.log("----------------------------------------------------");
         }
 

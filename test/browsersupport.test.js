@@ -234,6 +234,47 @@ describe("BrowserSupport", () => {
         });
     });
 
+    /**
+     * Check if are allowed when the browser version is empty
+     */
+    it('Should allow empty Browser version', (done) => {
+        const app = express();
+
+        app.use(browsersupport({
+            redirectUrl: "/oldbrowser",
+            supportedBrowsers: [
+                "Chrome >= 52",
+                "Firefox >= 80",
+                "Safari >= 10",
+                "Edge == All",
+                "IE == 11"
+            ]
+        }));
+
+        app.get('/', (req, res) => {
+            res.send("Home");
+        });
+
+        app.get('/oldbrowser', (req, res) => {
+            res.send("Old Browser");
+        });
+
+        requestOptions.headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/604.4.7 (KHTML, like Gecko) Safari/604.4.7";
+
+        const server = app.listen(8082, "0.0.0.0", () => {
+            request(requestOptions, (error, response, body) => {
+                response.statusCode.should.be.Number();
+                response.statusCode.should.equal(200);
+                response.req.path.should.equal("/");
+                body.should.equal("Home");
+
+                server.close(() => {
+                    done();
+                });
+            });
+        });
+    });
+
     it('Should redirect when unknown browser visits in strict mode', (done) => {
         const app = express();
 
