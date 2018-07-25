@@ -66,7 +66,7 @@ const browserSupportMiddleware = (options) => {
         if (debug) {
             console.log("----------------------------------------------------");
             console.log(`[BrowserSupport] Browser: ${req.useragent.browser}`);
-            if (typeof req.useragent.version !== "undefined" && typeof req.useragent.browser !== "undefined") {
+            if (typeof req.useragent.version !== "undefined" && typeof req.useragent.version.split === "function" && typeof req.useragent.browser !== "undefined") {
                 console.log(`[BrowserSupport] Version: ${req.useragent.version.split(".")[0]}`);
             }
             console.log("----------------------------------------------------");
@@ -126,7 +126,7 @@ const isSupportedBrowser = (ua) => {
         const supportedBrowser = convertStringToBrowser(supportedBrowsers[browser]);
 
         if (supportedBrowser.version !== "All") {
-            if (typeof ua.version === "undefined" || typeof ua.browser === "undefined") {
+            if (typeof ua.version === "undefined" || typeof ua.version.split !== "function" || typeof ua.browser === "undefined") {
                 return !useStrictMode;
             }
 
