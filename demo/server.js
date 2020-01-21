@@ -39,11 +39,11 @@ app.use(browsersupport({
     // redirectUrl: "/oldbrowser",
     customResponse: oldBrowserResponse,
     supportedBrowsers: [
-        "Chrome >= 52",
-        "Firefox >= 47",
+        "Chrome >= 41",
+        "Firefox >= 13",
         "Safari >= 10",
-        "Edge == All",
-        "IE == 11"
+        "IE == 11",
+        "Edge == All"
     ]
 }));
 

@@ -52,11 +52,11 @@
     "express-useragent": "^1.0.12"
   },
   "devDependencies": {
-    "coveralls": "^3.0.2",
-    "eslint": "^6.0.1",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
     "express": "^4.16.3",
-    "mocha": "^6.0.0",
-    "nyc": "^14.1.1",
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
     "request": "^2.87.0",
     "should": "^13.1.1"
   }
